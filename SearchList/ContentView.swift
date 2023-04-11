@@ -12,23 +12,53 @@ struct ContentView: View {
     // MARK: Stored properties
     
     // List of items to be shown
-    @State var items = ["Item 1", "Item2", "Item3", "Item4", "Item5"]
+    @State var items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
     
     
     // The search term the user has provided
     @State var searchText = ""
     
     // MARK: Computed properties
+    
+    var filteredItems: [String] {
+        if searchText.isEmpty {
+            
+            return items
+            
+        } else {
+            
+            // create an empty array
+            var matchingItems: [String] = []
+            
+            // iterate over original array
+            for item in items {
+                if item.lowercased().contains(searchText.lowercased()) {
+                    matchingItems.append(item)
+                }
+            }
+            // return the new appened array
+            return matchingItems
+        }
+    }
+    
     var body: some View {
         
         NavigationView{
             
-            List(items, id: \.self) {currentItem in
-                Text(currentItem)
+            VStack {
+                
+                Text("Searching on: \(searchText)")
+                
+                List(filteredItems, id: \.self) {currentItem in
+                    Text(currentItem)
+                }
+                .searchable(text: $searchText)
+                
             }
-            .searchable(text: $searchText)
             
         }
+        
+        
     }
 }
 
