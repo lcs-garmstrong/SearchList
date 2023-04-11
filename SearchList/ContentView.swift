@@ -8,14 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    // MARK: Stored properties
+    
+    // List of items to be shown
+    @State var items = ["Item 1", "Item2", "Item3", "Item4", "Item5"]
+    
+    
+    // The search term the user has provided
+    @State var searchText = ""
+    
+    // MARK: Computed properties
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        
+        NavigationView{
+            
+            List(items, id: \.self) {currentItem in
+                Text(currentItem)
+            }
+            .searchable(text: $searchText)
+            
         }
-        .padding()
     }
 }
 
